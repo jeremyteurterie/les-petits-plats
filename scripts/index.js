@@ -1,3 +1,21 @@
+const recipesCards = document.querySelector(".recipes-cards");
+const input = document.querySelector(".search-input");
+const ingredientInput = document.querySelector(".ingredients-input");
+const appareilInput = document.querySelector(".appareils-input");
+const ustensileInput = document.querySelector(".ustensiles-input");
+const ingredientUl = document.querySelector(".ul-ingredient");
+const appareilUl = document.querySelector(".ul-appareil");
+const ustensileUl = document.querySelector(".ul-ustensile");
+const lists = {
+  ingredients: [],
+  ustensils: [],
+  appareils: [],
+};
+const filters = {
+  input: "",
+  tags: [],
+};
+
 (async function () {
   // Define the display of ingredients in the cards
   function ingredientsDisplay(elements) {
@@ -16,23 +34,6 @@
     return result;
   }
 
-  const recipesCards = document.querySelector(".recipes-cards");
-  const input = document.querySelector(".search-input");
-  const ingredientInput = document.querySelector(".ingredients-input");
-  const appareilInput = document.querySelector(".appareils-input");
-  const ustensileInput = document.querySelector(".ustensiles-input");
-  const ingredientUl = document.querySelector(".ul-ingredient");
-  const appareilUl = document.querySelector(".ul-appareil");
-  const ustensileUl = document.querySelector(".ul-ustensile");
-  const lists = {
-    ingredients: [],
-    ustensils: [],
-    appareils: [],
-  };
-  const filters = {
-    input: "",
-    tags: [],
-  };
   let latch = false;
 
   // Create and display the cards

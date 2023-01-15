@@ -22,8 +22,7 @@ let latch = false;
   // Define the display of ingredients in the cards
   function ingredientsDisplay(elements) {
     var result = "";
-    for (var i = 0; i < elements.length; i++) {
-      var element = elements[i];
+    elements.forEach(function (element) {
       result +=
         "<strong>" +
         element.ingredient +
@@ -32,14 +31,13 @@ let latch = false;
         " " +
         (element.unit || "") +
         "</br>";
-    }
+    });
     return result;
   }
 
   // Create and display the cards
   function cardsDisplay(array) {
-    for (let i = 0; i < array.length; i++) {
-      let item = array[i];
+    array.forEach((item) => {
       let div = document.createElement("div");
       div.innerHTML =
         '<div class="card">' +
@@ -67,21 +65,18 @@ let latch = false;
         "</div>";
       recipesCards.appendChild(div);
 
-      let mappedIng = [];
-      for (var j = 0; j < item.ingredients.length; j++) {
-        mappedIng.push(item.ingredients[j].ingredient.toLowerCase());
-      }
+      let mappedIng = item.ingredients.map((ing) =>
+        ing.ingredient.toLowerCase()
+      );
       lists.ingredients = [...lists.ingredients, ...mappedIng];
 
-      let mappedUs = [];
-      for (var k = 0; k < item.ustensils.length; k++) {
-        mappedUs.push(item.ustensils[k].toLowerCase());
-      }
+      let mappedUs = item.ustensils.map((ustensil) => ustensil.toLowerCase());
       lists.ustensils.push(...mappedUs);
 
       lists.appareils.push(item.appliance.toLowerCase());
-    }
+    });
   }
+
   const displayList = (elems, typeIndex) => {
     let color, ul;
     switch (typeIndex) {
@@ -101,8 +96,7 @@ let latch = false;
 
     elems = [...new Set(elems)];
     elems.sort();
-    for (let i = 0; i < elems.length; i++) {
-      let item = elems[i];
+    elems.forEach((item) => {
       const newLi = document.createElement("li");
       newLi.textContent = item;
       ul.appendChild(newLi);
@@ -114,7 +108,7 @@ let latch = false;
         },
         { once: true }
       );
-    }
+    });
   };
 
   cardsDisplay(recipes);
@@ -132,11 +126,14 @@ let latch = false;
     span.innerHTML = value;
     tags.appendChild(span);
     span.onclick = function () {
-      const index = filters.tags.indexOf(value);
-      filters.tags.splice(index, 1);
-      span.parentNode.removeChild(span);
-      filterTagInput(filters.input);
-      filterVue();
+      filters.tags.forEach((val, index) => {
+        if (val === value) {
+          filters.tags.splice(index, 1);
+          span.parentNode.removeChild(span);
+          filterTagInput(filters.input);
+          filterVue();
+        }
+      });
     };
     filterVue();
   }
@@ -146,11 +143,11 @@ let latch = false;
     recipesCards.innerHTML = "";
     const filterRecipe = (recipe, filter) => {
       let ing = "";
-      for (let i = 0; i < recipe.ingredients.length; i++) {
-        ing += `${recipe.ingredients[i].ingredient} ${
-          recipe.ingredients[i].quantity || ""
-        } ${recipe.ingredients[i].unit || ""}`;
-      }
+      recipe.ingredients.forEach((ingredient) => {
+        ing += `${ingredient.ingredient} ${ingredient.quantity || ""} ${
+          ingredient.unit || ""
+        }`;
+      });
       return (
         recipe.name.toLowerCase().includes(filter) +
         ing.toLowerCase().includes(filter) +
@@ -166,9 +163,9 @@ let latch = false;
         return filterRecipe(item, tag);
       });
       let res = searchFilter;
-      for (let i = 0; i < tagsFilter.length; i++) {
-        res = res && tagsFilter[i];
-      }
+      tagsFilter.forEach((tag) => {
+        res = res && tag;
+      });
       return res;
     });
     cardsDisplay(filtered);
@@ -244,28 +241,19 @@ let latch = false;
       appareilUl.innerHTML = "";
       ustensileUl.innerHTML = "";
 
-      const filteredIng = [];
-      for (const item of lists.ingredients) {
-        if (item.toLowerCase().includes(searchValue.toLowerCase())) {
-          filteredIng.push(item);
-        }
-      }
+      const filteredIng = lists.ingredients.filter((item) =>
+        item.toLowerCase().includes(searchValue.toLowerCase())
+      );
       displayList(filteredIng, 0);
 
-      const filteredApp = [];
-      for (const item of lists.appareils) {
-        if (item.toLowerCase().includes(searchValue.toLowerCase())) {
-          filteredApp.push(item);
-        }
-      }
+      const filteredApp = lists.appareils.filter((item) =>
+        item.toLowerCase().includes(searchValue.toLowerCase())
+      );
       displayList(filteredApp, 1);
 
-      const filteredUs = [];
-      for (const item of lists.ustensils) {
-        if (item.toLowerCase().includes(searchValue.toLowerCase())) {
-          filteredUs.push(item);
-        }
-      }
+      const filteredUs = lists.ustensils.filter((item) =>
+        item.toLowerCase().includes(searchValue.toLowerCase())
+      );
       displayList(filteredUs, 2);
     } else if (searchValue.length < 3) {
       ingredientUl.innerHTML = "";

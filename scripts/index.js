@@ -16,6 +16,8 @@ const filters = {
   tags: [],
 };
 
+let latch = false;
+
 (async function () {
   // Define the display of ingredients in the cards
   function ingredientsDisplay(elements) {
@@ -34,12 +36,11 @@ const filters = {
     return result;
   }
 
-  let latch = false;
-
   // Create and display the cards
   function cardsDisplay(array) {
-    array.forEach(function (item) {
-      var div = document.createElement("div");
+    for (let i = 0; i < array.length; i++) {
+      let item = array[i];
+      let div = document.createElement("div");
       div.innerHTML =
         '<div class="card">' +
         '<div class="card-header">' +
@@ -66,21 +67,19 @@ const filters = {
         "</div>";
       recipesCards.appendChild(div);
 
-      var mappedIng = [];
-      for (var i = 0; i < item.ingredients.length; i++) {
-        mappedIng.push(item.ingredients[i].ingredient.toLowerCase());
+      let mappedIng = [];
+      for (var j = 0; j < item.ingredients.length; j++) {
+        mappedIng.push(item.ingredients[j].ingredient.toLowerCase());
       }
       lists.ingredients = [...lists.ingredients, ...mappedIng];
 
-      var mappedUs = [];
-      for (var j = 0; j < item.ustensils.length; j++) {
-        mappedUs.push(item.ustensils[j].toLowerCase());
+      let mappedUs = [];
+      for (var k = 0; k < item.ustensils.length; k++) {
+        mappedUs.push(item.ustensils[k].toLowerCase());
       }
       lists.ustensils.push(...mappedUs);
 
       lists.appareils.push(item.appliance.toLowerCase());
-    });
+    }
   }
-
-  cardsDisplay(recipes);
 })();

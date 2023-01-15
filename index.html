@@ -1,106 +1,124 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
     <script
-      src="https://kit.fontawesome.com/45e38e596f.js"
+      src="https://kit.fontawesome.com/36959caba5.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap"
+      href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="shortcut icon" href="#" />
-
-    <script src="./display/displayRecipes.js" type="module"></script>
-    <script src="./display/displayList.js" type="module"></script>
-    <script src="./updateList.js" type="module"></script>
-    <script src="./eventList.js" type="module"></script>
-    <script src="./inputEvent.js" type="module"></script>
-    <script src="main.js" type="module"></script>
+    <title>Les petits plats</title>
   </head>
+
   <body>
-    <header class="flexTitre">
-      <div class="titre_logo">
-        <img src="./images/lpp_logo.svg" alt="Logo les petits plats" />
-        <h2>Les petits plats</h2>
-      </div>
+    <header>
+      <img src="assets/logo.png" alt="logo" class="logo" />
     </header>
 
-    <section>
-      <h6>.</h6>
-      <div class="search_bar">
-        <input
-          type="search"
-          placeholder="Rechercher un ingrédient,appareil,ustensiles ou une recette"
-        />
-        <div class="icone_searchbar">
-          <img src="./images/loupe.svg" alt="" />
-        </div>
-        <label></label>
-      </div>
-      <div class="allTag">
-        <div class="tagIngredient">
-          <!-- <div class="closeLogoTag"></div> -->
-        </div>
-        <div class="tagAppliance">
-          <!-- <div class="closeLogoTag"></div> -->
-        </div>
-        <div>
-          <div class="tagUstensile">
-            <!-- <div class="closeLogoTag"></div> -->
-          </div>
-        </div>
-        <div class="search_global">
-          <div class="searchIngredients">
-            <input class="target_ing" placeholder="Ingrédients" />
-            <div class="container_ingredients">
-              <input class="inp_ing" placeholder="Rechercher un ingrédient" />
-              <img class="arrowUp" src="./images/arrowUp.svg" alt="" />
-              <div class="liste_total_ingredients">
-                <ul class="liste_ingredients" id="liste_ingredients"></ul>
-              </div>
-            </div>
-          </div>
-          <div class="searchAppareil">
-            <input class="target_app" placeholder="Appareil" />
-            <div class="container_appliances">
-              <input class="inp_apr" placeholder="Rechercher un appareil" />
-              <img class="arrowUp2" src="./images/arrowUp.svg" alt="" />
-              <div class="liste_total_appareils">
-                <ul class="liste_appareils" id="liste_appareils"></ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="searchUstensiles">
-            <input class="target_ust" placeholder="Ustensiles" />
-            <div class="container_ustensiles">
-              <input class="inp_ust" placeholder="Rechercher un ustensile" />
-              <img class="arrowUp3" src="./images/arrowUp.svg" alt="" />
-              <div class="liste_total_ustensiles">
-                <ul class="liste_ustensiles" id="liste_ustensiles"></ul>
-              </div>
-            </div>
-          </div>
+    <!-- Barre de recherche -->
+    <main class="main">
+      <div class="search-bar">
+        <div class="field-input">
+          <input
+            class="search-input"
+            id="search-input"
+            type="text"
+            placeholder="Rechercher une recette"
+          />
+          <img src="assets/search.png" alt="search" class="search" />
         </div>
       </div>
-    </section>
 
-    <section class="flex_description" id="recettes">
-      <h6>.</h6>
-    </section>
+      <!-- Tags -->
+      <div class="tag-section">
+        <div id="tags">
+          <div id="span-tag"></div>
+        </div>
+      </div>
+
+      <!-- Filtre par catégorie -->
+      <div class="filter-section">
+        <div class="ingredient-block">
+          <div class="Ingredients">
+            <input
+              class="ingredients-input"
+              type="text"
+              placeholder="Ingrédients"
+            />
+            <img
+              src="assets/angle-down.svg"
+              alt="angle-down"
+              class="angle-down-ing"
+            />
+            <img
+              src="assets/angle-up.svg"
+              alt="angle-up"
+              class="angle-up-ing"
+            />
+          </div>
+          <div class="list-ingredient">
+            <ul class="ul-ingredient"></ul>
+          </div>
+        </div>
+        <div class="appareil-block">
+          <div class="Appareils">
+            <input
+              class="appareils-input"
+              type="text"
+              placeholder="Appareils"
+            />
+            <img
+              src="assets/angle-down.svg"
+              alt="angle-down"
+              class="angle-down-app"
+            />
+            <img
+              src="assets/angle-up.svg"
+              alt="angle-up"
+              class="angle-up-app"
+            />
+          </div>
+          <div class="list-appareil">
+            <ul class="ul-appareil"></ul>
+          </div>
+        </div>
+        <div class="ustensile-block">
+          <div class="Ustensiles">
+            <input
+              class="ustensiles-input"
+              type="text"
+              placeholder="Ustensiles"
+            />
+            <img
+              src="assets/angle-down.svg"
+              alt="angle-down"
+              class="angle-down-us"
+            />
+            <img src="assets/angle-up.svg" alt="angle-up" class="angle-up-us" />
+          </div>
+          <div class="list-ustensile">
+            <ul class="ul-ustensile"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recettes -->
+      <div class="recipes-cards"></div>
+      <div id="not-found-div">
+        <p>
+          Aucune recette ne correspond à votre critère… vous pouvez chercher «
+          tarte aux pommes », « poisson », etc.
+        </p>
+      </div>
+    </main>
+
+    <!-- JS Files -->
+    <script src="data/recipes.js"></script>
+    <script src="scripts/index.js"></script>
   </body>
 </html>

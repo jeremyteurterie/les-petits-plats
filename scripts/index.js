@@ -136,42 +136,48 @@ let latch = false;
       filters.tags.splice(index, 1);
       span.parentNode.removeChild(span);
       filterTagInput(filters.input);
-      filterVue();
+      searchFilterRecipe();
     };
-    filterVue();
+    searchFilterRecipe();
   }
 
   // Filtre les recettes dans la searchbar et les tags
-  function filterVue() {
+  function searchFilterRecipe() {
     recipesCards.innerHTML = "";
-    const filterRecipe = (recipe, filter) => {
-      let ing = "";
-      for (let i = 0; i < recipe.ingredients.length; i++) {
-        ing += `${recipe.ingredients[i].ingredient} ${
-          recipe.ingredients[i].quantity || ""
-        } ${recipe.ingredients[i].unit || ""}`;
+    const filter = recipes.filter((item) => {
+      let match = false;
+      for (let i = 0; i < item.ingredients.length; i++) {
+        let ing = `${item.ingredients[i].ingredient} ${
+          item.ingredients[i].quantity || ""
+        } ${item.ingredients[i].unit || ""}`;
+        if (
+          item.name.toLowerCase().includes(filters.input) ||
+          ing.toLowerCase().includes(filters.input) ||
+          item.description.toLowerCase().includes(filters.input) ||
+          item.appliance.toLowerCase().includes(filters.input) ||
+          item.ustensils.join(" ").toLowerCase().includes(filters.input)
+        ) {
+          match = true;
+          break;
+        }
       }
-      return (
-        recipe.name.toLowerCase().includes(filter) +
-        ing.toLowerCase().includes(filter) +
-        recipe.description.toLowerCase().includes(filter) +
-        recipe.appliance.toLowerCase().includes(filter) +
-        recipe.ustensils.join(" ").toLowerCase().includes(filter)
-      );
-    };
-
-    const filtered = recipes.filter((item) => {
-      let searchFilter = filterRecipe(item, filters.input);
-      let tagsFilter = filters.tags.map((tag) => {
-        return filterRecipe(item, tag);
-      });
-      let res = searchFilter;
-      for (let i = 0; i < tagsFilter.length; i++) {
-        res = res && tagsFilter[i];
+      if (!match) {
+        for (let i = 0; i < filters.tags.length; i++) {
+          if (
+            item.name.toLowerCase().includes(filters.tags[i]) ||
+            ing.toLowerCase().includes(filters.tags[i]) ||
+            item.description.toLowerCase().includes(filters.tags[i]) ||
+            item.appliance.toLowerCase().includes(filters.tags[i]) ||
+            item.ustensils.join(" ").toLowerCase().includes(filters.tags[i])
+          ) {
+            match = true;
+            break;
+          }
+        }
       }
-      return res;
+      return match;
     });
-    cardsDisplay(filtered);
+    cardsDisplay(filter);
   }
 
   // Affiche un message d'erreur si la valeur entrée dans la searchbar ne correspond à une aucuns éléments dans les cards
@@ -179,7 +185,7 @@ let latch = false;
     filters.input = e.target.value.toLowerCase();
     if (this.value.length >= 3) {
       latch = false;
-      filterVue();
+      searchFilterRecipe();
       filterTagInput(e.target.value.toLowerCase());
 
       const notFound = document.getElementById("not-found-div");
@@ -276,7 +282,7 @@ let latch = false;
       displayList(lists.appareils, 1);
       displayList(lists.ustensils, 2);
     }
-    filterVue();
+    searchFilterRecipe();
   };
 
   const filterTagList = (searchValue, typeIndex) => {

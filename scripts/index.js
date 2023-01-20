@@ -127,19 +127,19 @@ let latch = false;
           filters.tags.splice(index, 1);
           span.parentNode.removeChild(span);
           filterTagInput(filters.input);
-          searFilterRecipe();
+          searchFilterRecipe();
         }
       });
     };
-    searFilterRecipe();
+    searchFilterRecipe();
   }
 
   //Filtre les recettes dans la searchbar et les tags
-  function searFilterRecipe() {
+  function searchFilterRecipe() {
     recipesCards.innerHTML = "";
     const searchString = filters.input.toLowerCase();
     const searchTags = filters.tags.map((tag) => tag.toLowerCase());
-    const filtered = [];
+    const filter = [];
     recipes.forEach((recipe) => {
       let ingredients = recipe.ingredients
         .map(
@@ -166,14 +166,14 @@ let latch = false;
       );
       if (searchFilter && tagsFilter) filtered.push(recipe);
     });
-    cardsDisplay(filtered);
+    cardsDisplay(filter);
   }
 
   // Affiche un message d'erreur si la valeur entrée dans la searchbar ne correspond à une aucuns éléments dans les cards
   input.addEventListener("input", function (e) {
     filters.input = e.target.value.toLowerCase();
     if (this.value.length >= 3) {
-      searFilterRecipe();
+      searchFilterRecipe();
       filterTagInput(e.target.value.toLowerCase());
       checkIfRecipesExist();
     } else if (this.value.length <= 3) {
@@ -267,7 +267,7 @@ let latch = false;
       displayList(lists.appareils, 1);
       displayList(lists.ustensils, 2);
     }
-    searFilterRecipe();
+    searchFilterRecipe();
   };
 
   const filterTagList = (searchValue, typeIndex) => {

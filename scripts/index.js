@@ -164,7 +164,7 @@ let latch = false;
           recipe.appliance.toLowerCase().includes(tag) ||
           recipe.ustensils.join(" ").toLowerCase().includes(tag)
       );
-      if (searchFilter && tagsFilter) filtered.push(recipe);
+      if (searchFilter && tagsFilter) filter.push(recipe);
     });
     cardsDisplay(filter);
   }

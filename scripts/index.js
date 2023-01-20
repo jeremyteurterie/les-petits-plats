@@ -137,39 +137,45 @@ let latch = false;
   //Filtre les recettes dans la searchbar et les tags
   function searchFilterRecipe() {
     recipesCards.innerHTML = "";
-    const filter = recipes.filter((item) => {
+    let filter = [];
+    for (let i = 0; i < recipes.length; i++) {
       let match = false;
-      for (let i = 0; i < item.ingredients.length; i++) {
-        let ing = `${item.ingredients[i].ingredient} ${
-          item.ingredients[i].quantity || ""
-        } ${item.ingredients[i].unit || ""}`;
+      for (let j = 0; j < recipes[i].ingredients.length; j++) {
+        let ing = `${recipes[i].ingredients[j].ingredient} ${
+          recipes[i].ingredients[j].quantity || ""
+        } ${recipes[i].ingredients[j].unit || ""}`;
         if (
-          item.name.toLowerCase().includes(filters.input) ||
+          recipes[i].name.toLowerCase().includes(filters.input) ||
           ing.toLowerCase().includes(filters.input) ||
-          item.description.toLowerCase().includes(filters.input) ||
-          item.appliance.toLowerCase().includes(filters.input) ||
-          item.ustensils.join(" ").toLowerCase().includes(filters.input)
+          recipes[i].description.toLowerCase().includes(filters.input) ||
+          recipes[i].appliance.toLowerCase().includes(filters.input) ||
+          recipes[i].ustensils.join(" ").toLowerCase().includes(filters.input)
         ) {
           match = true;
           break;
         }
       }
       if (!match) {
-        for (let i = 0; i < filters.tags.length; i++) {
+        for (let j = 0; j < filters.tags.length; j++) {
           if (
-            item.name.toLowerCase().includes(filters.tags[i]) ||
-            ing.toLowerCase().includes(filters.tags[i]) ||
-            item.description.toLowerCase().includes(filters.tags[i]) ||
-            item.appliance.toLowerCase().includes(filters.tags[i]) ||
-            item.ustensils.join(" ").toLowerCase().includes(filters.tags[i])
+            recipes[i].name.toLowerCase().includes(filters.tags[j]) ||
+            ing.toLowerCase().includes(filters.tags[j]) ||
+            recipes[i].description.toLowerCase().includes(filters.tags[j]) ||
+            recipes[i].appliance.toLowerCase().includes(filters.tags[j]) ||
+            recipes[i].ustensils
+              .join(" ")
+              .toLowerCase()
+              .includes(filters.tags[j])
           ) {
             match = true;
             break;
           }
         }
       }
-      return match;
-    });
+      if (match) {
+        filter.push(recipes[i]);
+      }
+    }
     cardsDisplay(filter);
   }
 

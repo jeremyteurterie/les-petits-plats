@@ -136,6 +136,35 @@ let latch = false;
     filterVue();
   }
 
+  // Searchbar research
+  function searchFilterRecipe() {
+    recipesCards.innerHTML = "";
+    let filter = [];
+    for (let i = 0; i < recipes.length; i++) {
+      let match = false;
+      for (let j = 0; j < recipes[i].ingredients.length; j++) {
+        let ing = `${recipes[i].ingredients[j].ingredient} ${
+          recipes[i].ingredients[j].quantity || ""
+        } ${recipes[i].ingredients[j].unit || ""}`;
+        if (
+          recipes[i].name.toLowerCase().includes(filters.input) ||
+          ing.toLowerCase().includes(filters.input) ||
+          recipes[i].description.toLowerCase().includes(filters.input) ||
+          recipes[i].appliance.toLowerCase().includes(filters.input) ||
+          recipes[i].ustensils.join(" ").toLowerCase().includes(filters.input)
+        ) {
+          match = true;
+          break;
+        }
+      }
+      if (match) {
+        filter.push(recipes[i]);
+      }
+    }
+    cardsDisplay(filter);
+  }
+
+  // Tag filter
   function filterVue() {
     recipesCards.innerHTML = "";
     const filterRecipe = (recipe, filter) => {
@@ -167,36 +196,6 @@ let latch = false;
     });
     cardsDisplay(filtered);
   }
-
-  //Filtre les recettes dans la searchbar
-  function searchFilterRecipe() {
-    recipesCards.innerHTML = "";
-    let filter = [];
-    for (let i = 0; i < recipes.length; i++) {
-      let match = false;
-      for (let j = 0; j < recipes[i].ingredients.length; j++) {
-        let ing = `${recipes[i].ingredients[j].ingredient} ${
-          recipes[i].ingredients[j].quantity || ""
-        } ${recipes[i].ingredients[j].unit || ""}`;
-        if (
-          recipes[i].name.toLowerCase().includes(filters.input) ||
-          ing.toLowerCase().includes(filters.input) ||
-          recipes[i].description.toLowerCase().includes(filters.input) ||
-          recipes[i].appliance.toLowerCase().includes(filters.input) ||
-          recipes[i].ustensils.join(" ").toLowerCase().includes(filters.input)
-        ) {
-          match = true;
-          break;
-        }
-      }
-      if (match) {
-        filter.push(recipes[i]);
-      }
-    }
-    cardsDisplay(filter);
-  }
-
-  // Filtre les recherches dans les tags
 
   // Affiche un message d'erreur si la valeur entrée dans la searchbar ne correspond à une aucuns éléments dans les cards
   input.addEventListener("input", function (e) {

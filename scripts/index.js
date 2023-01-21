@@ -134,11 +134,10 @@ let latch = false;
     searchFilterRecipe();
   }
 
-  //Filtre les recettes dans la searchbar et les tags
+  //Filtre les recettes dans la searchbar
   function searchFilterRecipe() {
     recipesCards.innerHTML = "";
     const searchString = filters.input.toLowerCase();
-    const searchTags = filters.tags.map((tag) => tag.toLowerCase());
     const filter = [];
     recipes.forEach((recipe) => {
       let ingredients = recipe.ingredients
@@ -156,15 +155,7 @@ let latch = false;
         recipe.description.toLowerCase().includes(searchString) ||
         recipe.appliance.toLowerCase().includes(searchString) ||
         recipe.ustensils.join(" ").toLowerCase().includes(searchString);
-      let tagsFilter = searchTags.every(
-        (tag) =>
-          ingredients.includes(tag) ||
-          recipe.name.toLowerCase().includes(tag) ||
-          recipe.description.toLowerCase().includes(tag) ||
-          recipe.appliance.toLowerCase().includes(tag) ||
-          recipe.ustensils.join(" ").toLowerCase().includes(tag)
-      );
-      if (searchFilter && tagsFilter) filter.push(recipe);
+      if (searchFilter) filter.push(recipe);
     });
     cardsDisplay(filter);
   }

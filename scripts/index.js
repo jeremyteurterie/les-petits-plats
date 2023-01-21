@@ -128,13 +128,15 @@ let latch = false;
           span.parentNode.removeChild(span);
           filterTagInput(filters.input);
           searchFilterRecipe();
+          filterVue();
         }
       });
     };
     searchFilterRecipe();
+    filterVue();
   }
 
-  //Filtre les recettes dans la searchbar et les tags
+  // Searchbar research
   function searchFilterRecipe() {
     recipesCards.innerHTML = "";
     let filter = [];
@@ -155,23 +157,6 @@ let latch = false;
           break;
         }
       }
-      if (!match) {
-        for (let j = 0; j < filters.tags.length; j++) {
-          if (
-            recipes[i].name.toLowerCase().includes(filters.tags[j]) ||
-            ing.toLowerCase().includes(filters.tags[j]) ||
-            recipes[i].description.toLowerCase().includes(filters.tags[j]) ||
-            recipes[i].appliance.toLowerCase().includes(filters.tags[j]) ||
-            recipes[i].ustensils
-              .join(" ")
-              .toLowerCase()
-              .includes(filters.tags[j])
-          ) {
-            match = true;
-            break;
-          }
-        }
-      }
       if (match) {
         filter.push(recipes[i]);
       }
@@ -179,11 +164,45 @@ let latch = false;
     cardsDisplay(filter);
   }
 
+  // Tag filter
+  function filterVue() {
+    recipesCards.innerHTML = "";
+    const filterRecipe = (recipe, filter) => {
+      let ing = "";
+      for (let i = 0; i < recipe.ingredients.length; i++) {
+        ing += `${recipe.ingredients[i].ingredient} ${
+          recipe.ingredients[i].quantity || ""
+        } ${recipe.ingredients[i].unit || ""}`;
+      }
+      return (
+        recipe.name.toLowerCase().includes(filter) +
+        ing.toLowerCase().includes(filter) +
+        recipe.description.toLowerCase().includes(filter) +
+        recipe.appliance.toLowerCase().includes(filter) +
+        recipe.ustensils.join(" ").toLowerCase().includes(filter)
+      );
+    };
+
+    const filtered = recipes.filter((item) => {
+      let searchFilter = filterRecipe(item, filters.input);
+      let tagsFilter = filters.tags.map((tag) => {
+        return filterRecipe(item, tag);
+      });
+      let res = searchFilter;
+      for (let i = 0; i < tagsFilter.length; i++) {
+        res = res && tagsFilter[i];
+      }
+      return res;
+    });
+    cardsDisplay(filtered);
+  }
+
   // Affiche un message d'erreur si la valeur entrée dans la searchbar ne correspond à une aucuns éléments dans les cards
   input.addEventListener("input", function (e) {
     filters.input = e.target.value.toLowerCase();
     if (this.value.length >= 3) {
       searchFilterRecipe();
+      filterVue();
       filterTagInput(e.target.value.toLowerCase());
       checkIfRecipesExist();
     } else if (this.value.length <= 3) {
@@ -278,6 +297,7 @@ let latch = false;
       displayList(lists.ustensils, 2);
     }
     searchFilterRecipe();
+    filterVue();
   };
 
   const filterTagList = (searchValue, typeIndex) => {

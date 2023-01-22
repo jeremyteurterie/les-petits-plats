@@ -17,7 +17,7 @@ header {
 }
 
 .search-bar {
-  width: 100%;
+  width: 90%;
   margin-bottom: 30px;
 }
 
@@ -28,7 +28,7 @@ header {
 
 .search {
   position: absolute;
-  right: 110px;
+  right: 165px;
   margin-top: 14px;
   width: 25px;
 }

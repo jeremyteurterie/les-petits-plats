@@ -1,8 +1,12 @@
 const recipesCards = document.querySelector(".recipes-cards");
 const input = document.querySelector(".search-input");
-const ingredientInput = document.querySelector(".ingredients-input");
-const appareilInput = document.querySelector(".appareils-input");
-const ustensileInput = document.querySelector(".ustensiles-input");
+const ingredientInput = document.getElementsByClassName("list-ingredient");
+const ingredientInputOpen = document.querySelector(".angle-down-ing");
+const ingredientInputClose = document.querySelector(".angle-up-ing");
+const appareilInput = document.querySelector(".angle-down-app");
+const appareilInputClose = document.querySelector(".angle-up-app");
+const ustensileInput = document.querySelector(".angle-down-us");
+const ustensileInputClose = document.querySelector(".angle-up-us");
 const ingredientUl = document.querySelector(".ul-ingredient");
 const appareilUl = document.querySelector(".ul-appareil");
 const ustensileUl = document.querySelector(".ul-ustensile");
@@ -96,11 +100,22 @@ let latch = false;
       const newLi = document.createElement("li");
       newLi.textContent = item;
       ul.appendChild(newLi);
+      window.onclick = function (event) {
+        if (event.target == ingredientInput) {
+          ingredientInput.style.display = "none";
+        }
+      };
       newLi.addEventListener(
         "click",
         function () {
           const lowerCaseIng = item.toLowerCase();
+          const ingredientInput = document.querySelector(".list-ingredient");
+          const ustensileIn = document.querySelector(".list-ustensile");
+          const appareilIn = document.querySelector(".list-appareil");
           addTag(lowerCaseIng, color);
+          ingredientInput.style.display = "none";
+          ustensileIn.style.display = "none";
+          appareilIn.style.display = "none";
         },
         { once: true }
       );
@@ -242,7 +257,15 @@ let latch = false;
     }
   };
 
-  ingredientInput.addEventListener("click", function () {
+  ingredientInputOpen.addEventListener("click", function () {
+    toggleList(
+      document.querySelector(".list-ingredient"),
+      document.querySelector(".angle-down-ing"),
+      document.querySelector(".angle-up-ing")
+    );
+  });
+
+  ingredientInputClose.addEventListener("click", function () {
     toggleList(
       document.querySelector(".list-ingredient"),
       document.querySelector(".angle-down-ing"),
@@ -258,7 +281,23 @@ let latch = false;
     );
   });
 
+  appareilInputClose.addEventListener("click", function () {
+    toggleList(
+      document.querySelector(".list-appareil"),
+      document.querySelector(".angle-down-app"),
+      document.querySelector(".angle-up-app")
+    );
+  });
+
   ustensileInput.addEventListener("click", function () {
+    toggleList(
+      document.querySelector(".list-ustensile"),
+      document.querySelector(".angle-down-us"),
+      document.querySelector(".angle-up-us")
+    );
+  });
+
+  ustensileInputClose.addEventListener("click", function () {
     toggleList(
       document.querySelector(".list-ustensile"),
       document.querySelector(".angle-down-us"),

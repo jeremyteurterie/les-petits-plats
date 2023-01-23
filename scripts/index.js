@@ -100,10 +100,14 @@ let latch = false;
       const newLi = document.createElement("li");
       newLi.textContent = item;
       ul.appendChild(newLi);
+      window.onclick = function (event) {
+        if (event.target == ingredientInput) {
+          ingredientInput.style.display = "none";
+        }
+      };
       newLi.addEventListener(
         "click",
         function () {
-          console.log("bouton cliqué");
           const lowerCaseIng = item.toLowerCase();
           const ingredientInput = document.querySelector(".list-ingredient");
           const ustensileIn = document.querySelector(".list-ustensile");

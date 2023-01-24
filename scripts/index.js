@@ -1,8 +1,14 @@
 const recipesCards = document.querySelector(".recipes-cards");
 const input = document.querySelector(".search-input");
 const ingredientInput = document.querySelector(".ingredients-input");
+const ingredientInputOpen = document.querySelector(".angle-down-ing");
+const ingredientInputClose = document.querySelector(".angle-up-ing");
 const appareilInput = document.querySelector(".appareils-input");
+const appareilInputOpen = document.querySelector(".angle-down-app");
+const appareilInputClose = document.querySelector(".angle-up-app");
 const ustensileInput = document.querySelector(".ustensiles-input");
+const ustensileInputOpen = document.querySelector(".angle-down-us");
+const ustensileInputClose = document.querySelector(".angle-up-us");
 const ingredientUl = document.querySelector(".ul-ingredient");
 const appareilUl = document.querySelector(".ul-appareil");
 const ustensileUl = document.querySelector(".ul-ustensile");
@@ -110,7 +116,19 @@ let latch = false;
         "click",
         function () {
           const lowerCaseIng = item.toLowerCase();
+          const ingredientInput = document.querySelector(".ingredients-input");
+          const appareilInput = document.querySelector(".appareils-input");
+          const ustensileInput = document.querySelector(".ustensiles-input");
+          const ingredientIn = document.querySelector(".list-ingredient");
+          const ustensileIn = document.querySelector(".list-ustensile");
+          const appareilIn = document.querySelector(".list-appareil");
           addTag(lowerCaseIng, color);
+          ingredientInput.value = "";
+          appareilInput.value = "";
+          ustensileInput.value = "";
+          ingredientIn.style.display = "none";
+          ustensileIn.style.display = "none";
+          appareilIn.style.display = "none";
         },
         { once: true }
       );
@@ -136,9 +154,38 @@ let latch = false;
       filters.tags.splice(index, 1);
       span.parentNode.removeChild(span);
       filterTagInput(filters.input);
+      searchFilterRecipe();
       filterVue();
     };
+    searchFilterRecipe();
     filterVue();
+  }
+
+  function searchFilterRecipe() {
+    recipesCards.innerHTML = "";
+    let filter = [];
+    for (let i = 0; i < recipes.length; i++) {
+      let match = false;
+      for (let j = 0; j < recipes[i].ingredients.length; j++) {
+        let ing = `${recipes[i].ingredients[j].ingredient} ${
+          recipes[i].ingredients[j].quantity || ""
+        } ${recipes[i].ingredients[j].unit || ""}`;
+        if (
+          recipes[i].name.toLowerCase().includes(filters.input) ||
+          ing.toLowerCase().includes(filters.input) ||
+          recipes[i].description.toLowerCase().includes(filters.input) ||
+          recipes[i].appliance.toLowerCase().includes(filters.input) ||
+          recipes[i].ustensils.join(" ").toLowerCase().includes(filters.input)
+        ) {
+          match = true;
+          break;
+        }
+      }
+      if (match) {
+        filter.push(recipes[i]);
+      }
+    }
+    cardsDisplay(filter);
   }
 
   // Filtre les recettes dans la searchbar et les tags
@@ -179,6 +226,7 @@ let latch = false;
     filters.input = e.target.value.toLowerCase();
     if (this.value.length >= 3) {
       latch = false;
+      searchFilterRecipe();
       filterVue();
       filterTagInput(e.target.value.toLowerCase());
 
@@ -221,6 +269,22 @@ let latch = false;
     );
   });
 
+  ingredientInputOpen.addEventListener("click", function () {
+    toggleList(
+      document.querySelector(".list-ingredient"),
+      document.querySelector(".angle-down-ing"),
+      document.querySelector(".angle-up-ing")
+    );
+  });
+
+  ingredientInputClose.addEventListener("click", function () {
+    toggleList(
+      document.querySelector(".list-ingredient"),
+      document.querySelector(".angle-down-ing"),
+      document.querySelector(".angle-up-ing")
+    );
+  });
+
   appareilInput.addEventListener("click", function () {
     toggleList(
       document.querySelector(".list-appareil"),
@@ -229,7 +293,39 @@ let latch = false;
     );
   });
 
+  appareilInputOpen.addEventListener("click", function () {
+    toggleList(
+      document.querySelector(".list-appareil"),
+      document.querySelector(".angle-down-app"),
+      document.querySelector(".angle-up-app")
+    );
+  });
+
+  appareilInputClose.addEventListener("click", function () {
+    toggleList(
+      document.querySelector(".list-appareil"),
+      document.querySelector(".angle-down-app"),
+      document.querySelector(".angle-up-app")
+    );
+  });
+
   ustensileInput.addEventListener("click", function () {
+    toggleList(
+      document.querySelector(".list-ustensile"),
+      document.querySelector(".angle-down-us"),
+      document.querySelector(".angle-up-us")
+    );
+  });
+
+  ustensileInputOpen.addEventListener("click", function () {
+    toggleList(
+      document.querySelector(".list-ustensile"),
+      document.querySelector(".angle-down-us"),
+      document.querySelector(".angle-up-us")
+    );
+  });
+
+  ustensileInputClose.addEventListener("click", function () {
     toggleList(
       document.querySelector(".list-ustensile"),
       document.querySelector(".angle-down-us"),
@@ -276,6 +372,7 @@ let latch = false;
       displayList(lists.appareils, 1);
       displayList(lists.ustensils, 2);
     }
+    searchFilterRecipe();
     filterVue();
   };
 

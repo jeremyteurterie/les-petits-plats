@@ -11,13 +11,11 @@ header {
 .main {
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin: 0px 85px;
   font-family: "DM Sans", sans-serif;
 }
 
 .search-bar {
-  width: 90%;
   margin-bottom: 30px;
 }
 
@@ -28,9 +26,9 @@ header {
 
 .search {
   position: absolute;
-  right: 165px;
+  right: 110px;
   margin-top: 14px;
-  width: 25px;
+  width: 30px;
 }
 
 .search-input {
@@ -44,7 +42,6 @@ header {
 .tag-section {
   width: 100%;
   max-width: 1140px;
-  margin-left: 30px;
 }
 
 #tag {
@@ -91,7 +88,6 @@ header {
   justify-content: flex-start;
   width: 100%;
   max-width: 1140px;
-  margin-left: 30px;
 }
 
 .ingredients-input,
@@ -102,7 +98,6 @@ header {
   padding: 20px 15px;
   border-radius: 5px;
   margin-right: 20px;
-  cursor: pointer;
 }
 
 .ingredients-input {
@@ -217,13 +212,13 @@ header {
 .recipes-cards {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  gap: 50px;
+  margin-top: 30px;
 }
 
 .card {
   background-color: #e7e7e7;
   border-radius: 5px;
-  margin: 30px 15px;
-  width: 350px;
 }
 
 .card-header {

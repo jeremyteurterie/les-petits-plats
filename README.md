@@ -1,2 +1,2 @@
-# openclassrooms-lespetitsplats
-Développez un algorithme de recherche en JavaScript
+# Les-Petits-Plats
+Develop a search algorithm in JavaScript.
